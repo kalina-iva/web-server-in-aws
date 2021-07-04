@@ -1,2 +1,2 @@
 [webserver]
-3.8.8.220 ansible_ssh_user=ubuntu ansible_ssh_private_key_file="../vpc/id_rsa"
+18.168.219.162 ansible_ssh_user=ubuntu ansible_ssh_private_key_file="../vpc/id_rsa"

@@ -1,0 +1,4 @@
+---
+build_path: /home/ubuntu/docker/nginx/
+image_name: devops-itog/nginx
+container_name: nginx

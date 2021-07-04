@@ -30,5 +30,5 @@ module "web_instance" {
 }
 
 output "public_ip" {
-  value = module.web_instance.public_ip
+  value = module.web_instance.elastic_ip
 }
