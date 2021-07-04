@@ -1,43 +1,6 @@
 ---
-- name: start nginx from docker
+- name: Start nginx in docker
   hosts: webserver
   become: true
-  tasks:
-    - name: Install docker and some dependencies
-      apt:
-        name: python3-pip, docker.io
-        state: present
-
-    - name: Start docker service
-      service:
-        name: docker
-        state: started
-
-    - name: Install docker python module
-      pip:
-        name: docker
-
-    - name: create build directory
-      file:
-        path: /home/ubuntu/docker
-        state: directory
-        mode: '0755'
-
-    - name: Move directory contents
-      copy:
-        src: nginx/
-        dest: /home/ubuntu/docker/
-      register: sync_result
-
-    - name: Build an image and push
-      command: docker build -t devops-itog/nginx:v1 /home/ubuntu/docker
-      when: sync_result.changed
-
-    - name: Create nginx container
-      docker_container:
-        name: nginx
-        image: devops-itog/nginx:v1
-        state: started
-        recreate: yes
-        published_ports:
-          - "80:80"
+  roles:
+    - nginx-in-docker

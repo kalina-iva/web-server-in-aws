@@ -1,0 +1,12 @@
+---
+- name: Install required packages
+  apt:
+    name:
+      - python3-docker
+      - docker.io
+    update_cache: yes
+
+- name: Start docker service
+  service:
+    name: docker
+    state: started

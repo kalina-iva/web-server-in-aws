@@ -1,0 +1,27 @@
+---
+- name: Create build directory
+  file:
+    path: "{{ build_path }}"
+    state: directory
+    mode: '0755'
+
+- name: Move files to build directory
+  copy:
+    src: files/
+    dest: "{{ build_path }}"
+  register: sync_result
+
+- name: Build image
+  command: docker build -t {{ image_name }} {{ build_path }}
+  when: sync_result.changed
+  register: docker_image
+
+- name: Create nginx container
+  docker_container:
+    name: "{{ container_name }}"
+    image: "{{ image_name }}"
+    state: started
+    recreate: yes
+    published_ports:
+      - "80:80"
+  when: docker_image.changed
