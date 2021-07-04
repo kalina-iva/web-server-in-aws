@@ -28,7 +28,7 @@ resource "local_file" "key" {
   content  = tls_private_key.example.private_key_pem
   filename = "id_rsa"
   provisioner "local-exec" {
-    command = "chmod 600 id_rsa"
+    command = "chmod 400 id_rsa"
   }
 }
 
@@ -45,5 +45,15 @@ resource "aws_instance" "ec2" {
 
   tags = {
     Name = var.name
+  }
+}
+
+resource "aws_eip" "eip" {
+  vpc = true
+  instance = aws_instance.ec2.id
+
+  tags = {
+    Name = "${var.env}_eip"
+    Env = var.env
   }
 }

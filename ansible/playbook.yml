@@ -1,6 +1,6 @@
 ---
 - name: Start nginx in docker
   hosts: webserver
-  become: true
+  become: yes
   roles:
     - nginx_in_docker

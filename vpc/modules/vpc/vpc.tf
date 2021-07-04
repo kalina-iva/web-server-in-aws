@@ -47,25 +47,6 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.custom_route_table.id
 }
 
-resource "aws_eip" "eip" {
-  vpc = true
-
-  tags = {
-    Name = "${var.env}_eip"
-    Env = var.env
-  }
-}
-
-resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.eip.id
-  subnet_id     = aws_subnet.public_subnet.id
-  depends_on    = [aws_internet_gateway.igw]
-  tags = {
-    Name        = "${var.env}_nat_gw"
-    Environment = var.env
-  }
-}
-
 resource "aws_security_group" "default" {
   name        = "public-sg"
   vpc_id      = aws_vpc.vpc.id
@@ -82,13 +63,6 @@ resource "aws_security_group" "default" {
     from_port = 443
     to_port = 443
     protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port = -1
-    to_port = -1
-    protocol = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
