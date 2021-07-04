@@ -3,4 +3,4 @@
   hosts: webserver
   become: true
   roles:
-    - nginx-in-docker
+    - nginx_in_docker

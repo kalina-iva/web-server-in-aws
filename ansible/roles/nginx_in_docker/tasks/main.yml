@@ -1,0 +1,13 @@
+---
+- name: Create build directory
+  file:
+    path: "{{ build_path }}"
+    state: directory
+    mode: 0755
+
+- name: Move files to build directory
+  copy:
+    src: files/
+    dest: "{{ build_path }}"
+    mode: 0644
+  notify: Build image
